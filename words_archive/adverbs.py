@@ -4,5 +4,3 @@ adverbs = {
     'maybe', 'alright', 'well', 'yonder', 'unbeknownst', 'exactly', 'forth', 'together', 'really', 'anyway',
     'wholly', 'again', 'evolutionary'
 }
-
-print(f'adverbs count: {len(adverbs)}')

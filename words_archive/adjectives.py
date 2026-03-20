@@ -25,6 +25,12 @@ class Adjective(BaseModel):
     def __hash__(self):
         return hash(self.positive)
 
+    def __lt__(self, other):
+        return self.positive < other.positive
+
+    def __str__(self) -> str:
+        return self.positive
+
 
 science = {
     Adjective(positive='scientific', comparative=None, superlative=None),
@@ -83,7 +89,5 @@ misc = {
 adjective_objects = (
     *science, *misc
 )
-
-print(f'adjectives count: {len(adjective_objects)}')
 
 adjectives = {*chain.from_iterable(adjective_objects)}

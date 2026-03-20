@@ -1,25 +1,12 @@
-from nouns import nouns
-from places import places
-from prepositions import prepositions
-from fallout import fallout
-from verbs import verbs
-from adjectives import adjectives
-from adverbs import adverbs
-from pronouns import pronouns
+from .nouns import nouns
+from .places import places
+from .prepositions import prepositions
+from .fallout import fallout
+from .verbs import verbs
+from .adjectives import adjectives
+from .adverbs import adverbs
+from .pronouns import pronouns
 
-
-# PRONOUNS = {
-#     'i', 'me', 'my', 'mine',
-#     'you', 'your', 'yours', 'yourself',
-#     'she', 'her', 'hers', 'herself',
-#     'he', 'him', 'his', 'himself',
-#     'it', 'its', 'itself',
-#     'we', 'us', 'our', 'ours', 'ourselves',
-#     'they', 'them', 'their', 'theirs', 'themselves',
-#     'nothing', 'nothin\'', 'something', 'anything', 'everything',
-#     'which', 'each', 'either', 'alone', 'whatever',
-#     'other', 'another',
-# }
 
 INDEFINITE_PRONOUNS = {
     'someone', 'anyone', 'noone', 'everyone',

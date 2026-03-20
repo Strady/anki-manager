@@ -83,12 +83,5 @@ def extract_words(lines: list[str]) -> set[str]:
             word = apply_strip(word)
             word = remove_contraction(word)
             if check_word(word):
-                if word == 'ai':
-                    print(line)
                 words.add(word)
     return words
-
-words = extract_words(lines)
-for word in words:
-    print(word)
-print(f'total: {len(words)}')

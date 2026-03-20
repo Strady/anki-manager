@@ -30,6 +30,12 @@ class Verb(BaseModel):
     def __hash__(self):
         return hash((self.v1, self.v2, self.v3))
 
+    def __lt__(self, other):
+        return self.v1.lower() < other.v1.lower()
+
+    def __str__(self) -> str:
+        return self.v1
+
 
 irregular_verbs = {
     Verb(v1='tell', v2='told', v3='told', v_ing='telling', v_s='tells'),
@@ -182,7 +188,5 @@ regular_verbs = {
 }
 
 verb_objects = (*irregular_verbs, *regular_verbs)
-
-print(f'verbs count: {len(verb_objects)}')
 
 verbs = {*chain.from_iterable(verb_objects)}

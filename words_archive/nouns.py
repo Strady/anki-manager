@@ -13,6 +13,14 @@ class Noun(BaseModel):
     def __hash__(self):
         return hash(self.singular)
 
+    def __lt__(self, other):
+        word = self.singular or self.plural
+        other_word = other.singular or other.plural
+        return word.lower() < other_word.lower()
+
+    def __str__(self) -> str:
+        return self.singular or self.plural
+
 
 relationships = {
     Noun(singular='family', plural='families'),
@@ -367,8 +375,6 @@ noun_objects = (
     *jurisprudence,
     *misc,
 )
-
-print(f'nouns count: {len(noun_objects)}')
 
 nouns = {*chain.from_iterable(noun_objects)}
 

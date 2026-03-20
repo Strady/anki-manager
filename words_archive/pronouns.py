@@ -22,6 +22,12 @@ class Pronoun(BaseModel):
     def __hash__(self):
         return hash(self.subject)
 
+    def __lt__(self, other) -> bool:
+        return self.subject < other.subject
+
+    def __str__(self) -> str:
+        return self.subject
+
 
 personal = {
     Pronoun(subject='i', object='me', dependent_possessive='my', independent_possessive='mine', reflexive='myself'),
@@ -40,7 +46,5 @@ indefinite = {
 }
 
 pronouns_objects = (*personal,)
-
-print(f'pronouns count: {len(pronouns_objects) + len(indefinite)}')
 
 pronouns = {*chain.from_iterable(pronouns_objects), *indefinite}
