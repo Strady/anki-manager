@@ -1,7 +1,7 @@
 from anki_client.constants import URL
 from anki_client.notes_generation import get_nodes_data, generate_note_payload, NoteData
 from anki_client.anki_connect_client import AnkiConnectClient, Note
-from anki_client.configuration import Configuration
+from configuration import Configuration
 
 
 config = Configuration()

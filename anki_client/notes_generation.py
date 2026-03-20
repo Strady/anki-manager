@@ -1,21 +1,13 @@
 import json
 from typing import TypedDict
 
-from pydantic import BaseModel
-
-from anki_client.configuration import Configuration
+from configuration import Configuration
 from anki_client.constants import Fields
+from models import NoteData
 from utils import generate_audio_from_text, base64_encode
 
 
 config = Configuration()
-
-
-class NoteData(BaseModel):
-    expression: str
-    explanation: str
-    example: str
-    image: str
 
 
 class BinaryDataDict(TypedDict):
@@ -73,13 +65,6 @@ def generate_note_payload(note_name: str, note_data: NoteData) -> dict:
         # 'picture': [get_image(note_name, note_data.image)]
     }
     return payload
-
-
-class NoteData(BaseModel):
-    expression: str
-    explanation: str
-    example: str
-    # image: str
 
 
 def get_nodes_data() -> list[NoteData]:
