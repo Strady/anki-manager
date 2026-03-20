@@ -62,14 +62,24 @@ def add_note(deck):
 
 @cli.command('extract-words')
 @click.option('-f', '--file', required=True, help='Text file path')
-def extract_words(file: str) -> None:
+@click.option('-e',
+              '--extractor',
+              type=click.Choice(['fallout', 'gachiakuta']),
+              required=True,
+              help='Extracting function'
+              )
+@click.option('-t', '--total', is_flag=True, help='To show total words count')
+def extract_words(file: str, extractor: str, total: bool) -> None:
     try:
         with open(file) as f:
             text = f.readlines()
     except (FileNotFoundError, IsADirectoryError) as e:
         raise SystemExit(e)
-    words = words_archive.words_extractor.extract_words(text)
-    print(*words, sep='\n')
+    extraction_method = words_archive.words_extractor.extractors[extractor]
+    words = extraction_method(text)
+    print(*extraction_method(text), sep='\n')
+    if total:
+        print(f'total: {len(words)}')
 
 
 @cli.command('list-words')

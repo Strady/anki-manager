@@ -1,6 +1,7 @@
+from collections.abc import Iterable
+
 from words_archive.words_db import KNOWN_WORDS
 
-SUBTITLES_FILE = 'subtitles/8.txt'
 SPECIAL_CHARS = '.,!?♪'
 REPLACEMENT_EXCEPTIONS = {'ain\'t', 'can'}
 FIRST_REPLACEMENT = (
@@ -26,9 +27,6 @@ REPLACEMENTS = (
     (',', ''),
     ('.', ''),
 )
-
-with open(SUBTITLES_FILE, 'r') as f:
-    lines = f.readlines()
 
 
 def split_line(line: str) -> set[str]:
@@ -56,7 +54,7 @@ def apply_replacements(word: str) -> str:
     return word
 
 
-def is_timestamp(word: str) -> bool:
+def has_digits(word: str) -> bool:
     return any(char.isdigit() for char in word)
 
 
@@ -69,15 +67,15 @@ def remove_contraction(word: str) -> str:
 
 
 def check_word(word: str) -> bool:
-    return not (word == '' or word == '-' or is_timestamp(word) or word in KNOWN_WORDS)
+    return not (word == '' or word == '-' or has_digits(word) or word in KNOWN_WORDS)
 
 
-def extract_words(lines: list[str]) -> set[str]:
+def extract_fallout_words(lines: list[str]) -> set[str]:
     words = set()
     for line in lines:
         raw_words = split_line(line)
         for word in raw_words:
-            if is_timestamp(word):
+            if has_digits(word):
                 continue
             word = apply_first_replacement(word)
             word = apply_strip(word)
@@ -85,3 +83,34 @@ def extract_words(lines: list[str]) -> set[str]:
             if check_word(word):
                 words.add(word)
     return words
+
+
+def has_special_symbols(word: str, special_symbols: Iterable = frozenset('{}&')) -> bool:
+    return any(symbol in word for symbol in special_symbols)
+
+
+def extract_gachiakuta_words(lines: list[str]) -> set[str]:
+    result = set()
+    for line in lines:
+        try:
+            _, line = line.split(',,')
+        except Exception:
+            continue
+        line = line.replace(r'\N', '')
+        for word in line.split():
+            word = word.lower()
+            word = word.strip(' ,.?!—"')
+            word = remove_contraction(word)
+            if has_special_symbols(word):
+                continue
+            if has_digits(word):
+                continue
+            if check_word(word):
+                result.add(word)
+    return result
+
+
+extractors = {
+    'fallout': extract_fallout_words,
+    'gachiakuta': extract_gachiakuta_words,
+}
