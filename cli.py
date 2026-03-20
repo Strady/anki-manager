@@ -5,6 +5,7 @@ import click
 
 from configuration import config
 from models import NoteData
+import words_archive.words_extractor
 
 
 class DeckReadError(Exception):
@@ -48,7 +49,7 @@ def cli():
 
 
 @cli.command('add-note')
-@click.option('--deck', required=True, help='Deck name (e.g., fallout)')
+@click.option('-d', '--deck', required=True, help='Deck name (e.g., fallout)')
 def add_note(deck):
     deck_file = config.notes_archive_dir / f'{deck}.json'
     note = NoteData(
@@ -57,6 +58,47 @@ def add_note(deck):
         example=click.prompt('example').strip()
     )
     add_note_to_deck(deck_file, note)
+
+
+@cli.command('extract-words')
+@click.option('-f', '--file', required=True, help='Text file path')
+def extract_words(file: str) -> None:
+    try:
+        with open(file) as f:
+            text = f.readlines()
+    except (FileNotFoundError, IsADirectoryError) as e:
+        raise SystemExit(e)
+    words = words_archive.words_extractor.extract_words(text)
+    print(*words, sep='\n')
+
+
+@cli.command('list-words')
+@click.option('--noun', is_flag=True, help='Show nouns')
+@click.option('--verb', is_flag=True, help='Show verbs')
+@click.option('--adjective', is_flag=True, help='Show adjectives')
+@click.option('--pronoun', is_flag=True, help='Show pronouns')
+def list_words(noun: bool, verb: bool, adjective: bool, pronoun: bool) -> None:
+    from words_archive.nouns import noun_objects
+    from words_archive.verbs import verb_objects
+    from words_archive.adjectives import adjective_objects
+    from words_archive.pronouns import pronouns_objects, indefinite
+    if noun:
+        print(f'Nouns in archive (total {len(noun_objects)}):')
+        for word in sorted(noun_objects):
+            print(word)
+    if verb:
+        print(f'Verbs in archive (total {len(verb_objects)}):')
+        for word in sorted(verb_objects):
+            print(word)
+    if adjective:
+        print(f'Adjectives in archive (total {len(adjective_objects)}):')
+        for word in sorted(adjective_objects):
+            print(word)
+    if pronoun:
+        print(f'Pronouns in archive (total {len(pronouns_objects) + len(indefinite)}):')
+        complex_pronouns = list(str(pronoun) for pronoun in pronouns_objects)
+        for word in sorted(complex_pronouns + list(indefinite)):
+            print(word)
 
 
 if __name__ == '__main__':
