@@ -4,7 +4,7 @@ import pathlib
 import click
 
 from configuration import config
-from models import NoteData
+from database.pydantic_models import NoteData
 import words_archive.words_extractor
 from cli.add_word import add_word
 

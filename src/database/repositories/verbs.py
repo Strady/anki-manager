@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from database.models import Verb
+from database.sa_models import Verb
 
 
 def create(session: Session,

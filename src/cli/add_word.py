@@ -6,6 +6,7 @@ import sqlalchemy.exc
 from database.session import get_session
 import database.repositories.nouns as nouns_repo
 import database.repositories.verbs as verbs_repo
+import database.pydantic_models as db_pydantic_models
 
 
 @click.group()
@@ -26,12 +27,13 @@ def noun(singular: str | None, plural: str | None) -> None:
     click.echo(f'Input: {singular = } and {plural = }')
     if singular is None and plural is None:
         raise click.UsageError('Either singular or plural form must be specified')
+    noun_model = db_pydantic_models.Noun(singular=singular, plural=plural)
     try:
         with get_session() as session:
-            nouns_repo.create(session=session, singular=singular, plural=plural)
+            nouns_repo.create(session=session, noun=noun_model)
     except sqlalchemy.exc.IntegrityError:
-        raise click.ClickException(f'"{singular or plural}" is already in database')
-    click.echo(f'"{singular or plural}" was added to database')
+        raise click.ClickException(f'"{noun_model}" is already in database')
+    click.echo(f'"{noun_model}" was added to database')
 
 
 def _parse_additional(ctx, param, value):

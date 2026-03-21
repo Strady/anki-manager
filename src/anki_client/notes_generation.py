@@ -3,7 +3,7 @@ from typing import TypedDict
 
 from src.configuration import Configuration
 from src.anki_client.constants import Fields
-from src.models import NoteData
+from database.pydantic_models import NoteData
 from src.utils import generate_audio_from_text, base64_encode
 
 
