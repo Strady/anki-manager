@@ -6,6 +6,7 @@ import click
 from configuration import config
 from models import NoteData
 import words_archive.words_extractor
+from cli.add_word import add_word
 
 
 class DeckReadError(Exception):
@@ -46,6 +47,9 @@ def add_note_to_deck(deck_file: pathlib.Path, note: NoteData) -> None:
 @click.group()
 def cli():
     pass
+
+
+cli.add_command(add_word)
 
 
 @cli.command('add-note')
@@ -127,7 +131,6 @@ def list_words(noun: bool, verb: bool, adjective: bool, pronoun: bool) -> None:
 
 
 def main():
-    print('hell world')
     cli()
 
 
