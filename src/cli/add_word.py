@@ -22,7 +22,6 @@ def validate_nonempty(ctx, param, value):
 @click.option('-s', '--singular', type=str, callback=validate_nonempty)
 @click.option('-p', '--plural', type=str, callback=validate_nonempty)
 def noun(singular: str | None, plural: str | None) -> None:
-    click.echo(f'Input: {singular = } and {plural = }')
     if singular is None and plural is None:
         raise click.UsageError('Either singular or plural form must be specified')
     noun_model = db_pydantic_models.Noun(singular=singular, plural=plural)
@@ -67,7 +66,6 @@ def verb(base: str,
         present_participle=present_participle,
         additional=additional
     )
-    print(repr(verb_model))
     try:
         with get_session() as session:
             verbs_repo.create(session=session, verb=verb_model)

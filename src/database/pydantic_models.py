@@ -64,7 +64,6 @@ class Verb(BaseModel):
     @field_validator('additional', mode='before')
     @classmethod
     def parse_additional_arg(cls, v):
-        print('here we are', v, type(v))
         if isinstance(v, str):
             validation_error = '"additional" must be either a set of stings or a JSON-array with strings'
             try:

@@ -10,6 +10,8 @@ class Configuration(BaseSettings):
     notes_archive_dir: pathlib.Path
     notes_cache_file: pathlib.Path
     rate: int
+    words_db_path: pathlib.Path
+    db_echo: bool
 
 
 config = Configuration()
