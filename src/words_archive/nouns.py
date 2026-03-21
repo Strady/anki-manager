@@ -23,6 +23,7 @@ class Noun(BaseModel):
 
 
 relationships = {
+    Noun(singular='relationship', plural='relationships'),
     Noun(singular='family', plural='families'),
     Noun(singular='couple', plural='couples'),
     Noun(singular='friend', plural='friends'),
@@ -42,6 +43,7 @@ people = {
     Noun(singular='human', plural='humans'),
     Noun(singular='being', plural='beings'),
     Noun(singular='folk', plural='folks'),
+    Noun(singular='guy', plural='guys'),
 }
 
 body = {
@@ -53,9 +55,12 @@ body = {
     Noun(singular='skin', plural=None),
     Noun(singular='heart', plural='hearts'),
     Noun(singular='arm', plural='arms'),
+    Noun(singular='hand', plural='hands'),
     Noun(singular='leg', plural='legs'),
+    Noun(singular='foot', plural='feet'),
     Noun(singular='scar', plural='scars'),
     Noun(singular='face', plural='faces'),
+    Noun(singular='blood', plural=None),
 }
 
 weather = {
@@ -66,7 +71,9 @@ weather = {
 }
 
 terminology = {
+    Noun(singular='eta', plural=None),
     Noun(singular='R&D', plural=None),
+    Noun(singular='hq', plural=None),
     Noun(singular='cryo', plural=None),
     Noun(singular='miniaturization', plural=None),
 }
@@ -77,7 +84,6 @@ technology = {
     Noun(singular='diode', plural='diodes'),
     Noun(singular='battery', plural='batteries'),
     Noun(singular='energy', plural=None),
-    Noun(singular='plant', plural='plants'),
 }
 
 personality = {
@@ -89,6 +95,12 @@ personality = {
     Noun(singular='virtue', plural='virtues'),
     Noun(singular='standpoint', plural=None),
     Noun(singular='mentality', plural=None),
+    Noun(singular='skill', plural='skills'),
+    Noun(singular='ability', plural='abilities'),
+    Noun(singular='disability', plural='disabilities'),
+    Noun(singular='leader', plural='leaders'),
+    Noun(singular='newbie', plural='newbies'),
+    Noun(singular='potential', plural='potentials'),
 }
 
 time = {
@@ -109,8 +121,10 @@ time = {
 }
 
 animals = {
+    Noun(singular='animal', plural='animals'),
     Noun(singular='dog', plural='dogs'),
     Noun(singular='cat', plural='cats'),
+    Noun(singular='beast', plural='beasts'),
 }
 
 insects = {
@@ -125,6 +139,8 @@ nature = {
     Noun(singular='land', plural='lands'),
     Noun(singular='planet', plural='planets'),
     Noun(singular='wave', plural='waves'),
+    Noun(singular='ground', plural='grounds'),
+    Noun(singular='air', plural='airs'),
 }
 
 household = {
@@ -141,6 +157,7 @@ household = {
     Noun(singular='step', plural='steps'),
     Noun(singular='cabin', plural='cabins'),
     Noun(singular='chamber', plural='chambers'),
+    Noun(singular='log', plural='logs'),
     Noun(singular='sub-floor', plural=None),
 }
 
@@ -157,6 +174,10 @@ occupations = {
     Noun(singular='servant', plural='servants'),
     Noun(singular='acolyte', plural='acolytes'),
     Noun(singular='unifier', plural='unifiers'),
+    Noun(singular='guard', plural='guards'),
+    Noun(singular='cleaner', plural='cleaners'),
+    Noun(singular='giver', plural='givers'),
+    Noun(singular='supporter', plural='supporters'),
 }
 
 science = {
@@ -167,20 +188,24 @@ science = {
 plants = {
     Noun(singular='plant', plural='plants'),
     Noun(singular='corn', plural='corns'),
+    Noun(singular='nut', plural='nuts'),
 }
 
 materials = {
+    Noun(singular='material', plural='materials'),
     Noun(singular='gold', plural=None),
     Noun(singular='wood', plural=None),
 }
 
 communications = {
+    Noun(singular='communication', plural='communications'),
     Noun(singular='threat', plural='threats'),
     Noun(singular='message', plural='messages'),
     Noun(singular='cheers', plural=None),
     Noun(singular='congratulation', plural='congratulations'),
     Noun(singular='request', plural='requests'),
     Noun(singular='warning', plural='warnings'),
+    Noun(singular='command', plural='commands'),
 }
 
 economics = {
@@ -198,6 +223,10 @@ war = {
     Noun(singular='adversary', plural='adversaries'),
     Noun(singular='damage', plural=None),
     Noun(singular='massacre', plural=None),
+    Noun(singular='opponent', plural='opponents'),
+    Noun(singular='struggle', plural=None),
+    Noun(singular='barricade', plural='barricades'),
+    Noun(singular='reinforcement', plural='reinforcements'),
 }
 
 work = {
@@ -211,6 +240,8 @@ work = {
     Noun(singular='business', plural='businesses'),
     Noun(singular='deal', plural='deals'),
     Noun(singular='standard', plural='standards'),
+    Noun(singular='boss', plural='bosses'),
+    Noun(singular='client', plural='clients'),
 }
 
 geography = {
@@ -220,6 +251,7 @@ geography = {
     Noun(singular='country', plural='countries'),
     Noun(singular='world', plural='worlds'),
     Noun(singular='enclave', plural='enclaves'),
+    Noun(singular='location', plural='location'),
 }
 
 biology = {
@@ -236,10 +268,13 @@ supernatural = {
 society = {
     Noun(singular='brotherhood', plural=None),
     Noun(singular='committee', plural='committees'),
+    Noun(singular='party', plural='parties'),
 }
 
 instruments = {
-    Noun(singular='crowbar', plural='crowbars')
+    Noun(singular='instrument', plural='instruments'),
+    Noun(singular='crowbar', plural='crowbars'),
+    Noun(singular=None, plural='scissors')
 }
 
 history = {
@@ -268,10 +303,19 @@ games = {
 }
 
 objects = {
+    Noun(singular='object', plural='objects'),
     Noun(singular='box', plural='boxes'),
     Noun(singular='slot', plural='slots'),
     Noun(singular='thing', plural='things'),
     Noun(singular='cap', plural='caps'),
+    Noun(singular='watch', plural='watches'),
+    Noun(singular='sphere', plural='spheres'),
+    Noun(singular='shape', plural='shapes'),
+    Noun(singular='mask', plural='masks'),
+    Noun(singular='glass', plural='glasses'),
+    Noun(singular='heap', plural='heaps'),
+    Noun(singular='picture', plural='pictures'),
+    Noun(singular='present', plural='presents'),
 }
 
 literature = {
@@ -284,6 +328,7 @@ medicine = {
 
 transport = {
     Noun(singular='wheel', plural='wheels'),
+    Noun(singular='crew', plural='crews'),
 }
 
 sounds = {
@@ -295,6 +340,10 @@ sounds = {
 jurisprudence = {
     Noun(singular='warrant', plural='warrants'),
     Noun(singular='trial', plural='trials'),
+}
+
+swearing = {
+    Noun(singular='asshole', plural='assholes'),
 }
 
 misc = {
@@ -334,9 +383,43 @@ misc = {
     Noun(singular='smudge', plural='smudges'),
     Noun(singular='smidge', plural=None),
     Noun(singular='remnant', plural='remnants'),
+    Noun(singular='part', plural='parts'),
+    Noun(singular='info', plural=None),
+    Noun(singular='information', plural=None),
+    Noun(singular='type', plural='types'),
+    Noun(singular='top', plural=None),
+    Noun(singular='risk', plural='risks'),
+    Noun(singular='treasure', plural='treasures'),
+    Noun(singular='hit', plural='hits'),
+    Noun(singular='power', plural='powers'),
+    Noun(singular='pit', plural='pits'),
+    Noun(singular='light', plural='lights'),
+    Noun(singular='vision', plural='visions'),
+    Noun(singular='goal', plural='goals'),
+    Noun(singular='plenty', plural=None),
+    Noun(singular='garbage', plural=None),
+    Noun(singular='food', plural=None),
+    Noun(singular='version', plural='versions'),
+    Noun(singular='case', plural='cases'),
+    Noun(singular='bunch', plural='bunches'),
+    Noun(singular='zone', plural='zones'),
+    Noun(singular='area', plural='areas'),
+    Noun(singular='trick', plural='tricks'),
+    Noun(singular='point', plural='points'),
+    Noun(singular='burden', plural='burdens'),
+    Noun(singular='strength', plural='strengths'),
+    Noun(singular='trash', plural='trashes'),
+    Noun(singular='place', plural='places'),
+    Noun(singular='chance', plural='chances'),
+    Noun(singular='style', plural='styles'),
+    Noun(singular='pleasure', plural='pleasures'),
+    Noun(singular='tag', plural='tags'),
+    Noun(singular='gas', plural='gases'),
+    Noun(singular='discipline', plural='disciplines'),
+    Noun(singular='course', plural='courses'),
 }
 
-noun_objects = (
+noun_objects: tuple[Noun, ...] = (
     *relationships,
     *people,
     *body,
@@ -373,6 +456,7 @@ noun_objects = (
     *transport,
     *sounds,
     *jurisprudence,
+    *swearing,
     *misc,
 )
 

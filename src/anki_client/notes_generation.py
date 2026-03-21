@@ -1,10 +1,10 @@
 import json
 from typing import TypedDict
 
-from configuration import Configuration
-from anki_client.constants import Fields
-from models import NoteData
-from utils import generate_audio_from_text, base64_encode
+from src.configuration import Configuration
+from src.anki_client.constants import Fields
+from src.models import NoteData
+from src.utils import generate_audio_from_text, base64_encode
 
 
 config = Configuration()

@@ -1,6 +1,6 @@
 import requests
 
-from anki_client.constants import Fields, URL
+from src.anki_client.constants import Fields, URL
 
 CSS = """.card {
     font-family: arial;

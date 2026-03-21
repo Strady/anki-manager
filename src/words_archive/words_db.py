@@ -21,7 +21,7 @@ NUMERALS = {
     'three', 'third',
     'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
     'both', 'hundred', 'thousand', 'million',
-    'fifty',
+    'fifty', 'fifteen'
 }
 
 INTERJECTIONS = {
@@ -56,7 +56,8 @@ FAMILY = {
     'wife', 'husband', 'son', 'daughter', 'mother', 'father', 'daddy', 'dad', 'parent', 'parents'
 }
 COMMON_WORDS = {
-    'yes', 'no', 'not', 'sir', 'mr', 'mrs', 'mister', 'miss', 'bye', 'hi', 'hello', 'such', 'ones', 'so', 'ok', 'okay',
+    'yes', 'no', 'not', 'sir', 'mr', 'mrs', 'mister', 'miss', 'ma\'am', 'bye', 'hi', 'hello', 'such', 'ones', 'so', 'ok',
+    'okay', '\'kay', 'c\'mon',
     'yeah', 'end', 'please', 'most', 'more'
 }
 
@@ -83,7 +84,6 @@ particles = {'yet', 'just', 'only', 'even'}
 KNOWN_WORDS = {
     *DAYS_OF_WEEK,
     *INTERJECTIONS,
-    # *PRONOUNS,
     *INDEFINITE_PRONOUNS,
     *MODAL_VERBS,
     *AUXILIARY_VERBS,
@@ -98,9 +98,9 @@ KNOWN_WORDS = {
     *ARTICLES,
     *particles,
     *NAMES,
-    *nouns,
+    # *nouns,
     *adjectives,
-    *verbs,
+    # *verbs,
     *adverbs,
     *prepositions,
     *pronouns,

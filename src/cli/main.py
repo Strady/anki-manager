@@ -60,6 +60,20 @@ def add_note(deck):
     add_note_to_deck(deck_file, note)
 
 
+def _get_known_words():
+    from words_archive.words_db import KNOWN_WORDS
+    import database.repositories.nouns as nouns_repo
+    import database.repositories.verbs as verbs_repo
+    from database.session import get_session
+
+    with get_session() as session:
+        nouns = nouns_repo.get_all(session=session)
+        verbs = verbs_repo.get_all(session=session)
+    KNOWN_WORDS.update(nouns)
+    KNOWN_WORDS.update(verbs)
+    return KNOWN_WORDS
+
+
 @cli.command('extract-words')
 @click.option('-f', '--file', required=True, help='Text file path')
 @click.option('-e',
@@ -77,6 +91,7 @@ def extract_words(file: str, extractor: str, total: bool) -> None:
         raise SystemExit(e)
     extraction_method = words_archive.words_extractor.extractors[extractor]
     words = extraction_method(text)
+    words -= _get_known_words()
     print(*extraction_method(text), sep='\n')
     if total:
         print(f'total: {len(words)}')
@@ -88,10 +103,10 @@ def extract_words(file: str, extractor: str, total: bool) -> None:
 @click.option('--adjective', is_flag=True, help='Show adjectives')
 @click.option('--pronoun', is_flag=True, help='Show pronouns')
 def list_words(noun: bool, verb: bool, adjective: bool, pronoun: bool) -> None:
-    from words_archive.nouns import noun_objects
-    from words_archive.verbs import verb_objects
-    from words_archive.adjectives import adjective_objects
-    from words_archive.pronouns import pronouns_objects, indefinite
+    from src.words_archive.nouns import noun_objects
+    from src.words_archive.verbs import verb_objects
+    from src.words_archive.adjectives import adjective_objects
+    from src.words_archive.pronouns import pronouns_objects, indefinite
     if noun:
         print(f'Nouns in archive (total {len(noun_objects)}):')
         for word in sorted(noun_objects):
@@ -111,5 +126,10 @@ def list_words(noun: bool, verb: bool, adjective: bool, pronoun: bool) -> None:
             print(word)
 
 
-if __name__ == '__main__':
+def main():
+    print('hell world')
     cli()
+
+
+if __name__ == "__main__":
+    main()
