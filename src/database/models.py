@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, UniqueConstraint
+from sqlalchemy import Integer, String, UniqueConstraint, Index, func
 from sqlalchemy.orm import Mapped, mapped_column
 from .base import Base
 
@@ -6,14 +6,19 @@ from .base import Base
 class Noun(Base):
     __tablename__ = 'nouns'
 
-    __table_args__ = (
-        UniqueConstraint('singular', 'plural', name='uq_single_plural'),
-    )
-
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
-    singular: Mapped[str | None]
-    plural: Mapped[str | None]
+    singular: Mapped[str | None] = mapped_column(String, nullable=True)
+    plural: Mapped[str | None] = mapped_column(String, nullable=True)
+
+    __table_args__ = (
+        Index(
+            "uq_constraint",
+            func.coalesce(singular, ""),
+            func.coalesce(plural, ""),
+            unique=True
+        ),
+    )
 
 
 class Verb(Base):
@@ -25,7 +30,6 @@ class Verb(Base):
             'third_person',
             'past_simple',
             'past_participle',
-            'present_participle',
             name='uq_constraint'
         ),
     )
