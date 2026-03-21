@@ -27,9 +27,9 @@ class Verb(Base):
     __table_args__ = (
         UniqueConstraint(
             'base',
-            'third_person',
             'past_simple',
             'past_participle',
+            'third_person',
             name='uq_constraint'
         ),
     )
@@ -37,8 +37,8 @@ class Verb(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     base: Mapped[str]
-    third_person: Mapped[str]
     past_simple: Mapped[str]
     past_participle: Mapped[str]
+    third_person: Mapped[str]
     present_participle: Mapped[str | None]
     additional: Mapped[str | None]

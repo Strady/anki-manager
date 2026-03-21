@@ -1,5 +1,3 @@
-import json
-
 import click
 import sqlalchemy.exc
 
@@ -38,11 +36,10 @@ def noun(singular: str | None, plural: str | None) -> None:
 
 def _parse_additional(ctx, param, value):
     if value is None:
-        return value
+        return set()
     value = validate_nonempty(ctx, param, value)
     try:
-        additional_forms = [form.strip() for form in value.split(',') if form.strip()]
-        return json.dumps(additional_forms)
+        return {form.strip() for form in value.split(',') if form.strip()}
     except Exception:
         error_msg = f'{param.name} must be passed as a comma-separated list: <word1>,<word2>,<word3>'
         raise click.BadParameter(error_msg)
@@ -50,29 +47,30 @@ def _parse_additional(ctx, param, value):
 
 @add_word.command()
 @click.option('-v1', '--base', type=str, callback=validate_nonempty)
-@click.option('-3rd', '--third-person', type=str, callback=validate_nonempty)
 @click.option('-v2', '--past-simple', type=str, callback=validate_nonempty)
 @click.option('-v3', '--past-participle', type=str, callback=validate_nonempty)
+@click.option('-s', '--third-person', type=str, callback=validate_nonempty)
 @click.option('-ing', '--present-participle', type=str, callback=validate_nonempty, required=False)
 @click.option('-a', '--additional', type=str, callback=_parse_additional, required=False)
 def verb(base: str,
-         third_person: str,
          past_simple: str,
          past_participle: str,
+         third_person: str,
          present_participle: str | None,
-         additional: list[str] | None
+         additional: set[str]
          ) -> None:
+    verb_model = db_pydantic_models.Verb(
+        base=base,
+        third_person=third_person,
+        past_simple=past_simple,
+        past_participle=past_participle,
+        present_participle=present_participle,
+        additional=additional
+    )
+    print(repr(verb_model))
     try:
         with get_session() as session:
-            verbs_repo.create(
-                session=session,
-                base=base,
-                third_person=third_person,
-                past_simple=past_simple,
-                past_participle=past_participle,
-                present_participle=present_participle,
-                additional=additional
-            )
+            verbs_repo.create(session=session, verb=verb_model)
     except sqlalchemy.exc.IntegrityError:
-        raise click.ClickException(f'"{base}" is already in database')
-    click.echo(f'"{base}" was added to database')
+        raise click.ClickException(f'"{verb_model}" is already in database')
+    click.echo(f'"{verb_model}" was added to database')

@@ -1,39 +1,30 @@
+from itertools import chain
+
 from sqlalchemy.orm import Session
-from database.sa_models import Verb
+import database.sa_models as sa_models
+import database.pydantic_models as pydantic_models
 
 
-def create(session: Session,
-           base: str,
-           third_person: str,
-           past_simple: str,
-           past_participle: str,
-           present_participle: str | None,
-           additional: str | None
-           ) -> Verb:
-    verb = Verb(
-        base=base,
-        third_person=third_person,
-        past_simple=past_simple,
-        past_participle=past_participle,
-        present_participle=present_participle,
-        additional=additional
+def create(session: Session, verb: pydantic_models.Verb) -> sa_models.Verb:
+    verb = sa_models.Verb(
+        base=verb.base,
+        past_simple=verb.past_simple,
+        past_participle=verb.past_participle,
+        third_person=verb.third_person,
+        present_participle=verb.present_participle,
+        additional=verb.additional_json
     )
     session.add(verb)
     return verb
 
 
 def get_all(session: Session) -> set[str]:
-    nouns = session.query(Verb).all()
-    result = set()
-    for noun in nouns:
-        result.add(noun.base)
-        result.add(noun.third_person)
-        result.add(noun.past_simple)
-        result.add(noun.past_participle)
-        if noun.present_participle:
-            result.add(noun.present_participle)
-    return result
+    verbs = [
+        pydantic_models.Verb.model_validate(verb)
+        for verb in session.query(sa_models.Verb).all()
+    ]
+    return set(chain.from_iterable(verbs))
 
 
 def count(session: Session) -> int:
-    return session.query(Verb).count()
+    return session.query(sa_models.Verb).count()

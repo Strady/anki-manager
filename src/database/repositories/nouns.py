@@ -17,14 +17,6 @@ def get_all(session: Session) -> set[str]:
         for noun in session.query(sa_models.Noun).all()
     ]
     return set(chain.from_iterable(nouns))
-    #
-    # result = set()
-    # for noun in nouns:
-    #     if noun.singular:
-    #         result.add(noun.singular)
-    #     if noun.plural:
-    #         result.add(noun.plural)
-    # return result
 
 
 def count(session: Session) -> int:
