@@ -33,7 +33,7 @@ def noun(singular: str | None, plural: str | None) -> None:
     click.echo(f'"{noun_model}" was added to database')
 
 
-def _parse_additional(ctx, param, value):
+def parse_additional(ctx, param, value):
     if value is None:
         return set()
     value = validate_nonempty(ctx, param, value)
@@ -44,20 +44,49 @@ def _parse_additional(ctx, param, value):
         raise click.BadParameter(error_msg)
 
 
+def validate_third_person(ctx, param, value):
+    value: str = validate_nonempty(ctx, param, value)
+    if not value.endswith('s'):
+        raise click.BadParameter(f'third person form must ends with "s"')
+    return value
+
+
+def validate_present_participle(ctx, param, value):
+    if value is None:
+        return value
+    value: str = validate_nonempty(ctx, param, value)
+    if not value.endswith('ing'):
+        raise click.BadParameter(f'present participle form must ends with "ing"')
+    return value
+
+
+def validate_past_forms(irregular: bool, past_simple: str, past_participle: str) -> None:
+    if irregular:
+        return
+    error_template = '{field} form must end with "ed"'
+    if not past_simple.endswith('ed'):
+        raise click.BadParameter(error_template.format(field='past simple'))
+    if not past_participle.endswith('ed'):
+        raise click.BadParameter(error_template.format(field='past participle'))
+
+
 @add_word.command()
 @click.option('-v1', '--base', type=str, callback=validate_nonempty)
 @click.option('-v2', '--past-simple', type=str, callback=validate_nonempty)
 @click.option('-v3', '--past-participle', type=str, callback=validate_nonempty)
-@click.option('-s', '--third-person', type=str, callback=validate_nonempty)
-@click.option('-ing', '--present-participle', type=str, callback=validate_nonempty, required=False)
-@click.option('-a', '--additional', type=str, callback=_parse_additional, required=False)
+@click.option('-s', '--third-person', type=str, callback=validate_third_person)
+@click.option('-ing', '--present-participle', type=str, callback=validate_present_participle, required=False)
+@click.option('-a', '--additional', type=str, callback=parse_additional, required=False)
+@click.option('-i', '--irregular', is_flag=True, required=False)
 def verb(base: str,
          past_simple: str,
          past_participle: str,
          third_person: str,
          present_participle: str | None,
-         additional: set[str]
+         additional: set[str],
+         irregular: bool
          ) -> None:
+    validate_past_forms(irregular, past_simple, past_participle)
     verb_model = db_pydantic_models.Verb(
         base=base,
         third_person=third_person,
