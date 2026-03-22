@@ -34,7 +34,7 @@ def split_line(line: str) -> set[str]:
 
 
 def apply_strip(word: str) -> str:
-    chars = '.,!?"-♪'
+    chars = '.,!?"-♪[]…'
     return word.strip(chars)
 
 
