@@ -59,13 +59,13 @@ def _get_known_words():
     from words_archive.words_db import KNOWN_WORDS
     import database.repositories.nouns as nouns_repo
     import database.repositories.verbs as verbs_repo
+    import database.repositories.adjectives as adjectives_repo
     from database.session import get_session
 
     with get_session() as session:
-        nouns = nouns_repo.get_all(session=session)
-        verbs = verbs_repo.get_all(session=session)
-    KNOWN_WORDS.update(nouns)
-    KNOWN_WORDS.update(verbs)
+        KNOWN_WORDS.update(nouns_repo.get_all(session=session))
+        KNOWN_WORDS.update(verbs_repo.get_all(session=session))
+        KNOWN_WORDS.update(adjectives_repo.get_all(session=session))
     return KNOWN_WORDS
 
 

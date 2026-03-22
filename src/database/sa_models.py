@@ -42,3 +42,13 @@ class Verb(Base):
     third_person: Mapped[str]
     present_participle: Mapped[str | None]
     additional: Mapped[str | None]
+
+
+class Adjective(Base):
+    __tablename__ = 'adjectives'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+
+    positive: Mapped[str] = mapped_column(String, nullable=False, unique=True)
+    comparative: Mapped[str | None] = mapped_column(String, nullable=True)
+    superlative: Mapped[str | None] = mapped_column(String, nullable=True)

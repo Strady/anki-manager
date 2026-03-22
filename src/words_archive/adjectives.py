@@ -32,11 +32,8 @@ class Adjective(BaseModel):
         return self.positive
 
 
-science = {
-    Adjective(positive='scientific', comparative=None, superlative=None),
-}
-
 misc = {
+    Adjective(positive='scientific', comparative=None, superlative=None),
     Adjective(positive='thin', comparative='thinner', superlative='thinnest'),
     Adjective(positive='big', comparative='bigger', superlative='biggest'),
     Adjective(positive='large', comparative='larger', superlative='largest'),
@@ -115,8 +112,6 @@ misc = {
     Adjective(positive='mild', comparative='milder', superlative='mildest'),
 }
 
-adjective_objects = (
-    *science, *misc
-)
+adjective_objects = (*misc,)
 
 adjectives = {*chain.from_iterable(adjective_objects)}

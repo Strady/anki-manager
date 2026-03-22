@@ -99,7 +99,7 @@ KNOWN_WORDS = {
     *particles,
     *NAMES,
     # *nouns,
-    *adjectives,
+    # *adjectives,
     # *verbs,
     *adverbs,
     *prepositions,

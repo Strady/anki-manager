@@ -1,6 +1,6 @@
 import json
 
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 
 
 class NoteData(BaseModel):
@@ -95,3 +95,26 @@ class Verb(BaseModel):
 
     def __str__(self) -> str:
         return self.base
+
+
+class Adjective(BaseModel):
+
+    model_config = ConfigDict(from_attributes=True)
+
+    positive: str
+    comparative: str | None
+    superlative: str | None
+    exception: bool = False
+
+    def __iter__(self):
+        forms = [self.positive, self.comparative, self.superlative]
+        return iter(forms)
+
+    def __hash__(self):
+        return hash(self.positive)
+
+    def __lt__(self, other):
+        return self.positive < other.positive
+
+    def __str__(self) -> str:
+        return self.positive
