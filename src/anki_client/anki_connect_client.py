@@ -1,9 +1,16 @@
 from pydantic import BaseModel, Field
 import requests
-from constants import Fields
+
+from anki_client.constants import Fields
 
 
-class NotePublishError(Exception):
+class AnkiClientError(Exception):
+    """
+    Raised if "error" field of response is not null
+    """
+
+
+class NotePublishError(AnkiClientError):
 
     """
     Raised in case response "error" field if not null
@@ -60,3 +67,24 @@ class AnkiConnectClient:
         note_request = NoteCreateRequest(params=note_params)
         response = requests.post(self._url, json=note_request.model_dump(by_alias=True))
         self._check_error(response)
+
+    def get_notes_ids(self, deck: str) -> list[int]:
+        params = dict(query=f'deck:"{deck}"')
+        data = dict(action='findNotes', version=6, params=params)
+        response = requests.post(url=self._url, json=data)
+        response_body = response.json()
+        result = response_body['result']
+        if error := response_body['error']:
+            raise AnkiClientError(error)
+        return result
+
+    def get_notes(self, deck: str) -> list[dict]:
+        notes_ids = self.get_notes_ids(deck)
+        params = dict(notes=notes_ids)
+        data = dict(action='notesInfo', version=6, params=params)
+        response = requests.post(url=self._url, json=data)
+        response_body = response.json()
+        result = response_body['result']
+        if error := response_body['error']:
+            raise AnkiClientError(error)
+        return result

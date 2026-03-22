@@ -3,7 +3,7 @@ import pathlib
 
 import click
 
-from configuration import config
+from cli.add_note import add_note
 from database.pydantic_models import NoteData
 import words_archive.words_extractor
 from cli.add_word import add_word
@@ -50,18 +50,9 @@ def cli():
 
 
 cli.add_command(add_word)
+cli.add_command(add_note)
 
 
-@cli.command('add-note')
-@click.option('-d', '--deck', required=True, help='Deck name (e.g., fallout)')
-def add_note(deck):
-    deck_file = config.notes_archive_dir / f'{deck}.json'
-    note = NoteData(
-        expression=click.prompt('expression').strip(),
-        explanation=click.prompt('explanation').strip(),
-        example=click.prompt('example').strip()
-    )
-    add_note_to_deck(deck_file, note)
 
 
 def _get_known_words():

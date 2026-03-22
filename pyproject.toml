@@ -5,10 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "anki-connect-api>=24.2.26.0",
     "click>=8.3.1",
     "edge-tts>=7.2.7",
     "pydantic>=2.12.5",
     "pydantic-settings>=2.13.1",
+    "requests>=2.32.5",
     "sqlalchemy>=2.0.48",
 ]
 

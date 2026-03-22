@@ -12,6 +12,8 @@ class Configuration(BaseSettings):
     rate: int
     words_db_path: pathlib.Path
     db_echo: bool
+    anki_desktop_url: str = 'http://localhost:8765'
+    note_model: str = 'FalloutModel'
 
 
 config = Configuration()

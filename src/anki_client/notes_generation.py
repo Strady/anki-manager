@@ -1,10 +1,10 @@
 import json
 from typing import TypedDict
 
-from src.configuration import Configuration
-from src.anki_client.constants import Fields
+from configuration import Configuration
+from anki_client.constants import Fields
 from database.pydantic_models import NoteData
-from src.utils import generate_audio_from_text, base64_encode
+from utils import generate_audio_from_text, base64_encode
 
 
 config = Configuration()
@@ -49,10 +49,11 @@ def get_image(card_name: str, filename: str) -> BinaryDataDict:
     }
 
 
-def generate_note_payload(note_name: str, note_data: NoteData) -> dict:
+def generate_note_payload(note_data: NoteData, deck: str) -> dict:
+    note_name = note_data.expression.lower().replace(' ', '_')
     payload = {
-        'deckName': config.deck,
-        'modelName': config.model,
+        'deckName': deck,
+        'modelName': config.note_model,
         'fields': {
             Fields.TEXT_FRONT.value: note_data.expression,
             Fields.TEXT_BACK.value: note_data.explanation,
@@ -62,7 +63,6 @@ def generate_note_payload(note_name: str, note_data: NoteData) -> dict:
             get_audio_front(note_name, note_data.expression),
             get_audio_back(note_name, note_data.explanation, note_data.example),
         ]
-        # 'picture': [get_image(note_name, note_data.image)]
     }
     return payload
 
