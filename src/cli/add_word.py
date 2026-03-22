@@ -69,6 +69,8 @@ def validate_past_forms(irregular: bool, past_simple: str, past_participle: str)
         raise click.BadParameter(error_template.format(field='past simple'))
     if not past_participle.endswith('ed'):
         raise click.BadParameter(error_template.format(field='past participle'))
+    if not past_simple == past_participle:
+        raise click.BadParameter('For regular verbs past simple and past participle forms must be the same')
 
 
 @add_word.command()
