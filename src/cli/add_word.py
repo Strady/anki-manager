@@ -4,6 +4,7 @@ import sqlalchemy.exc
 from database.session import get_session
 import database.repositories.nouns as nouns_repo
 import database.repositories.verbs as verbs_repo
+import database.repositories.adjectives as adjectives_repo
 import database.pydantic_models as db_pydantic_models
 
 
@@ -101,3 +102,36 @@ def verb(base: str,
     except sqlalchemy.exc.IntegrityError:
         raise click.ClickException(f'"{verb_model}" is already in database')
     click.echo(f'"{verb_model}" was added to database')
+
+
+def validate_comparison_forms(exception: bool, comparative: str | None, superlative: str | None) -> None:
+    if bool(comparative) ^ bool(superlative):   # check with XOR either both None or both not None:
+        error_msg = 'comparative and superlative form must either both be specified or neither of them is specified'
+        raise click.BadParameter(error_msg)
+    if exception:
+        return None
+    if comparative is not None and not comparative.endswith('er'):
+        raise click.BadParameter(f'comparative form must end with "er"')
+    if superlative is not None and not superlative.endswith('est'):
+        raise click.BadParameter(f'superlative form must end with "est"')
+
+
+@add_word.command()
+@click.option('-p', '--positive', type=str, callback=validate_nonempty)
+@click.option('-c', '--comparative', type=str, callback=validate_nonempty)
+@click.option('-s', '--superlative', type=str, callback=validate_nonempty)
+@click.option('-e', '--exception', is_flag=True)
+def adjective(positive: str, comparative: str, superlative: str, exception: bool) -> None:
+    if not exception:
+        validate_comparison_forms(exception, comparative, superlative)
+    adjective_model = db_pydantic_models.Adjective(
+        positive=positive,
+        comparative=comparative,
+        superlative=superlative
+    )
+    try:
+        with get_session() as session:
+            adjectives_repo.create(session=session, adjective=adjective_model)
+    except sqlalchemy.exc.IntegrityError:
+        raise click.ClickException(f'"{adjective_model}" is already in database')
+    click.echo(f'"{adjective_model}" was added to database')
