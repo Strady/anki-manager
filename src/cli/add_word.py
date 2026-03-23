@@ -5,6 +5,7 @@ from database.session import get_session
 import database.repositories.nouns as nouns_repo
 import database.repositories.verbs as verbs_repo
 import database.repositories.adjectives as adjectives_repo
+import database.repositories.adverbs as adverbs_repo
 import database.pydantic_models as db_pydantic_models
 
 
@@ -137,3 +138,25 @@ def adjective(positive: str, comparative: str, superlative: str, exception: bool
     except sqlalchemy.exc.IntegrityError:
         raise click.ClickException(f'"{adjective_model}" is already in database')
     click.echo(f'"{adjective_model}" was added to database')
+
+
+@add_word.command()
+@click.option('-p', '--positive', type=str, callback=validate_nonempty)
+@click.option('-c', '--comparative', type=str, callback=validate_nonempty)
+@click.option('-s', '--superlative', type=str, callback=validate_nonempty)
+@click.option('-e', '--exception', is_flag=True)
+def adverb(positive: str, comparative: str, superlative: str, exception: bool) -> None:
+    if not exception:
+        validate_comparison_forms(exception, comparative, superlative)
+    adverb_model = db_pydantic_models.Adverb(
+        positive=positive,
+        comparative=comparative,
+        superlative=superlative
+    )
+    try:
+        with get_session() as session:
+            adverbs_repo.create(session=session, adverb=adverb_model)
+    except sqlalchemy.exc.IntegrityError:
+        raise click.ClickException(f'"{adverb_model}" is already in database')
+    click.echo(f'"{adverb_model}" was added to database')
+

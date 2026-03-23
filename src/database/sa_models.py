@@ -49,6 +49,18 @@ class Adjective(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
-    positive: Mapped[str] = mapped_column(String, nullable=False, unique=True)
-    comparative: Mapped[str | None] = mapped_column(String, nullable=True)
-    superlative: Mapped[str | None] = mapped_column(String, nullable=True)
+    positive: Mapped[str] = mapped_column(String, unique=True)
+    comparative: Mapped[str | None]
+    superlative: Mapped[str | None]
+
+
+class Adverb(Base):
+    __tablename__ = 'adverbs'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+
+    positive: Mapped[str] = mapped_column(String, unique=True)
+    comparative: Mapped[str | None]
+    superlative: Mapped[str | None]
+
+

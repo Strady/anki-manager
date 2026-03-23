@@ -104,7 +104,6 @@ class Adjective(BaseModel):
     positive: str
     comparative: str | None
     superlative: str | None
-    exception: bool = False
 
     def __iter__(self):
         forms = [self.positive, self.comparative, self.superlative]
@@ -118,3 +117,26 @@ class Adjective(BaseModel):
 
     def __str__(self) -> str:
         return self.positive
+
+
+class Adverb(BaseModel):
+
+    model_config = ConfigDict(from_attributes=True)
+
+    positive: str
+    comparative: str | None
+    superlative: str | None
+
+    def __iter__(self):
+        forms = [self.positive, self.comparative, self.superlative]
+        return iter(forms)
+
+    def __hash__(self):
+        return hash(self.positive)
+
+    def __lt__(self, other):
+        return self.positive < other.positive
+
+    def __str__(self) -> str:
+        return self.positive
+
