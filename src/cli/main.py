@@ -71,6 +71,19 @@ def _get_known_words():
     return KNOWN_WORDS
 
 
+def read_file(file: str) -> set[str]:
+    try:
+        with open(file) as f:
+            return set(f.readlines())
+    except (FileNotFoundError, IsADirectoryError) as e:
+        raise SystemExit(e)
+
+
+def get_excluded_words(file: str) -> set[str]:
+    text = read_file(file)
+    return {word.strip('\n').lower() for word in text}
+
+
 @cli.command('extract-words')
 @click.option('-f', '--file', required=True, help='Text file path')
 @click.option('-e',
@@ -80,15 +93,14 @@ def _get_known_words():
               help='Extracting function'
               )
 @click.option('-t', '--total', is_flag=True, help='To show total words count')
-def extract_words(file: str, extractor: str, total: bool) -> None:
-    try:
-        with open(file) as f:
-            text = f.readlines()
-    except (FileNotFoundError, IsADirectoryError) as e:
-        raise SystemExit(e)
+@click.option('--exclude', required=False, help='File with words that should be excluded')
+def extract_words(file: str, extractor: str, total: bool, exclude: str | None) -> None:
+    text = read_file(file)
     extraction_method = words_archive.words_extractor.extractors[extractor]
     words = extraction_method(text)
     words -= _get_known_words()
+    if exclude is not None:
+        words -= get_excluded_words(exclude)
     print(*words, sep='\n')
     if total:
         print(f'total: {len(words)}')

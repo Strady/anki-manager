@@ -82,7 +82,7 @@ def is_comment_line(line: str) -> bool:
     return line.startswith('[') and line.endswith(']')
 
 
-def extract_fallout_words(lines: list[str]) -> set[str]:
+def extract_fallout_words(lines: Iterable[str]) -> set[str]:
     words = set()
     for line in lines:
         if is_comment_line(line):
