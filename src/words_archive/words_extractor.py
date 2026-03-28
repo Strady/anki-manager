@@ -70,9 +70,16 @@ def check_word(word: str) -> bool:
     return not (word == '' or word == '-' or has_digits(word) or word in KNOWN_WORDS)
 
 
+def is_comment_line(line: str) -> bool:
+    line = line.strip('-\n')
+    return line.startswith('[') and line.endswith(']')
+
+
 def extract_fallout_words(lines: list[str]) -> set[str]:
     words = set()
     for line in lines:
+        if is_comment_line(line):
+            continue
         raw_words = split_line(line)
         for word in raw_words:
             if has_digits(word):
