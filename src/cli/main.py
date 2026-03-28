@@ -135,6 +135,23 @@ def list_words(noun: bool, verb: bool, adjective: bool, pronoun: bool) -> None:
             print(word)
 
 
+@cli.command('count-words')
+def count_words() -> None:
+    with get_session() as session:
+        nouns = nouns_repo.count(session)
+        verbs = verbs_repo.count(session)
+        adjectives = adjectives_repo.count(session)
+        adverbs = adverbs_repo.count(session)
+        prepositions = prepositions_repo.count(session)
+    total = nouns + verbs + adjectives + adverbs + prepositions
+    click.echo(f'nouns: {nouns}')
+    click.echo(f'verbs: {verbs}')
+    click.echo(f'adjectives: {adjectives}')
+    click.echo(f'adverbs: {adverbs}')
+    click.echo(f'prepositions: {prepositions}')
+    click.echo(f'total: {total}')
+
+
 def main():
     cli()
 
