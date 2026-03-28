@@ -89,7 +89,7 @@ def extract_words(file: str, extractor: str, total: bool) -> None:
     extraction_method = words_archive.words_extractor.extractors[extractor]
     words = extraction_method(text)
     words -= _get_known_words()
-    print(*extraction_method(text), sep='\n')
+    print(*words, sep='\n')
     if total:
         print(f'total: {len(words)}')
 

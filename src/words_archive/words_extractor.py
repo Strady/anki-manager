@@ -1,6 +1,5 @@
 from collections.abc import Iterable
 
-from words_archive.words_db import KNOWN_WORDS
 
 SPECIAL_CHARS = '.,!?♪'
 REPLACEMENT_EXCEPTIONS = {'ain\'t', 'can'}
@@ -66,8 +65,16 @@ def remove_contraction(word: str) -> str:
     return word
 
 
+def remove_stammering(word: str) -> str:
+    if '-' in word:
+        first_part, second_part = word.split('-', maxsplit=1)
+        if second_part.startswith(first_part):
+            return remove_stammering(second_part)
+    return word
+
+
 def check_word(word: str) -> bool:
-    return not (word == '' or word == '-' or has_digits(word) or word in KNOWN_WORDS)
+    return not (word == '' or word == '-' or has_digits(word))
 
 
 def is_comment_line(line: str) -> bool:
@@ -88,6 +95,7 @@ def extract_fallout_words(lines: list[str]) -> set[str]:
             word = apply_strip(word)
             word = remove_contraction(word)
             if check_word(word):
+                word = remove_stammering(word)
                 words.add(word)
     return words
 
