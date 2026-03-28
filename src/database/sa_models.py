@@ -64,3 +64,9 @@ class Adverb(Base):
     superlative: Mapped[str | None]
 
 
+class Preposition(Base):
+    __tablename__ = 'prepositions'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+
+    word: Mapped[str] = mapped_column(String, unique=True)

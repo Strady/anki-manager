@@ -6,6 +6,7 @@ import database.repositories.nouns as nouns_repo
 import database.repositories.verbs as verbs_repo
 import database.repositories.adjectives as adjectives_repo
 import database.repositories.adverbs as adverbs_repo
+import database.repositories.prepositions as prepositions_repo
 import database.pydantic_models as db_pydantic_models
 
 
@@ -159,4 +160,27 @@ def adverb(positive: str, comparative: str, superlative: str, exception: bool) -
     except sqlalchemy.exc.IntegrityError:
         raise click.ClickException(f'"{adverb_model}" is already in database')
     click.echo(f'"{adverb_model}" was added to database')
+
+
+class NonEmptyString(click.ParamType):
+    name = "text"
+
+    def convert(self, value, param, ctx):
+        if not value or not value.strip():
+            self.fail("cannot be empty", param, ctx)
+        return value
+
+
+NON_EMPTY = NonEmptyString()
+
+
+@add_word.command()
+@click.argument('word', type=NON_EMPTY)
+def preposition(word: str) -> None:
+    try:
+        with get_session() as session:
+            prepositions_repo.create(session=session, preposition=word)
+    except sqlalchemy.exc.IntegrityError:
+        raise click.ClickException(f'"{word}" is already in database')
+    click.echo(f'"{word}" was added to database')
 

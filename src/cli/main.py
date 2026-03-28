@@ -8,6 +8,14 @@ from database.pydantic_models import NoteData
 import words_archive.words_extractor
 from cli.add_word import add_word
 
+from words_archive.words_db import KNOWN_WORDS
+import database.repositories.nouns as nouns_repo
+import database.repositories.verbs as verbs_repo
+import database.repositories.adjectives as adjectives_repo
+import database.repositories.adverbs as adverbs_repo
+import database.repositories.prepositions as prepositions_repo
+from database.session import get_session
+
 
 class DeckReadError(Exception):
     pass
@@ -54,18 +62,12 @@ cli.add_command(add_note)
 
 
 def _get_known_words():
-    from words_archive.words_db import KNOWN_WORDS
-    import database.repositories.nouns as nouns_repo
-    import database.repositories.verbs as verbs_repo
-    import database.repositories.adjectives as adjectives_repo
-    import database.repositories.adverbs as adverbs_repo
-    from database.session import get_session
-
     with get_session() as session:
         KNOWN_WORDS.update(nouns_repo.get_all(session=session))
         KNOWN_WORDS.update(verbs_repo.get_all(session=session))
         KNOWN_WORDS.update(adjectives_repo.get_all(session=session))
         KNOWN_WORDS.update(adverbs_repo.get_all(session=session))
+        KNOWN_WORDS.update(prepositions_repo.get_all(session=session))
     return KNOWN_WORDS
 
 
