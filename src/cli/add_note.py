@@ -8,9 +8,9 @@ from database.pydantic_models import NoteData
 
 def get_note_data() -> NoteData:
     return NoteData(
-        expression=click.prompt('expression').strip(),
-        explanation=click.prompt('explanation').strip(),
-        example=click.prompt('example').strip()
+        expression=input('expression: ').strip(),
+        explanation=input('explanation: ').strip(),
+        example=input('example: ').strip()
     )
 
 
