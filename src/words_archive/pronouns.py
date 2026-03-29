@@ -45,6 +45,9 @@ indefinite = {
     'something', 'anything', 'nothing', 'everything',
 }
 
-pronouns_objects = (*personal,)
+# pronouns_objects = (*personal,)
 
-pronouns = {*chain.from_iterable(pronouns_objects), *indefinite}
+pronouns = {
+    # *chain.from_iterable(pronouns_objects),
+    *indefinite
+}

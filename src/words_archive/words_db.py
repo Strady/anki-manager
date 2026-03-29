@@ -101,7 +101,7 @@ KNOWN_WORDS = {
     # *nouns,
     # *adjectives,
     # *verbs,
-    *adverbs,
+    # *adverbs,
     # *prepositions,
     *pronouns,
     *places,

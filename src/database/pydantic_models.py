@@ -140,3 +140,31 @@ class Adverb(BaseModel):
     def __str__(self) -> str:
         return self.positive
 
+
+class Pronoun(BaseModel):
+
+    model_config = ConfigDict(from_attributes=True)
+
+    subject: str
+    object: str
+    dependent_possessive: str
+    independent_possessive: str
+    reflexive: str
+
+    def __iter__(self):
+        return iter((
+            self.subject,
+            self.object,
+            self.dependent_possessive,
+            self.independent_possessive,
+            self.reflexive
+        ))
+
+    def __hash__(self):
+        return hash(self.subject)
+
+    def __lt__(self, other) -> bool:
+        return self.subject < other.subject
+
+    def __str__(self) -> str:
+        return self.subject

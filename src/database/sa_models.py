@@ -70,3 +70,15 @@ class Preposition(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     word: Mapped[str] = mapped_column(String, unique=True)
+
+
+class Pronoun(Base):
+    __tablename__ = 'pronouns'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+
+    subject: Mapped[str] = mapped_column(String, unique=True)
+    object: Mapped[str]
+    dependent_possessive: Mapped[str]
+    independent_possessive: Mapped[str]
+    reflexive: Mapped[str] = mapped_column(String, nullable=True)
