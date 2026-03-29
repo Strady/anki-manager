@@ -82,3 +82,11 @@ class Pronoun(Base):
     dependent_possessive: Mapped[str]
     independent_possessive: Mapped[str]
     reflexive: Mapped[str] = mapped_column(String, nullable=True)
+
+
+class Determiner(Base):
+    __tablename__ = 'determiners'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+
+    word: Mapped[str] = mapped_column(String, unique=True)

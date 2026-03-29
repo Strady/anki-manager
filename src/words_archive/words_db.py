@@ -73,9 +73,9 @@ NAMES = {
     'henry', 'stephanie', 'steph', 'lucy', 'hank', 'diane', 'askins', 'caesar', 'bob', 'robert',
 }
 
-DEMONSTRATIVES = {
-    'this', 'that', 'these', 'those', 'there', 'here'
-}
+# DEMONSTRATIVES = {
+#     'this', 'that', 'these', 'those', 'there', 'here'
+# }
 
 ARTICLES = {'a', 'an', 'the'}
 
@@ -94,7 +94,7 @@ KNOWN_WORDS = {
     *NUMERALS,
     *QUESTIONS,
     *FAMILY,
-    *DEMONSTRATIVES,
+    # *DEMONSTRATIVES,
     *ARTICLES,
     *particles,
     *NAMES,

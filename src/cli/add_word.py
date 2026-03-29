@@ -7,6 +7,7 @@ import database.repositories.verbs as verbs_repo
 import database.repositories.adjectives as adjectives_repo
 import database.repositories.adverbs as adverbs_repo
 import database.repositories.prepositions as prepositions_repo
+import database.repositories.determiners as determiners_repo
 import database.pydantic_models as db_pydantic_models
 
 
@@ -183,4 +184,16 @@ def preposition(word: str) -> None:
     except sqlalchemy.exc.IntegrityError:
         raise click.ClickException(f'"{word}" is already in database')
     click.echo(f'"{word}" was added to database')
+
+
+@add_word.command()
+@click.argument('word', type=NON_EMPTY)
+def determiner(word: str) -> None:
+    try:
+        with get_session() as session:
+            determiners_repo.create(session=session, determiner=word)
+    except sqlalchemy.exc.IntegrityError:
+        raise click.ClickException(f'"{word}" is already in database')
+    click.echo(f'"{word}" was added to database')
+
 

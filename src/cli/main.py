@@ -15,6 +15,7 @@ import database.repositories.adjectives as adjectives_repo
 import database.repositories.adverbs as adverbs_repo
 import database.repositories.prepositions as prepositions_repo
 import database.repositories.pronouns as pronouns_repo
+import database.repositories.determiners as determiners_repo
 from database.session import get_session
 
 
@@ -70,6 +71,7 @@ def _get_known_words():
         KNOWN_WORDS.update(adverbs_repo.get_all(session=session))
         KNOWN_WORDS.update(prepositions_repo.get_all(session=session))
         KNOWN_WORDS.update(pronouns_repo.get_all(session=session))
+        KNOWN_WORDS.update(determiners_repo.get_all(session=session))
     return KNOWN_WORDS
 
 
@@ -146,13 +148,15 @@ def count_words() -> None:
         adverbs = adverbs_repo.count(session)
         prepositions = prepositions_repo.count(session)
         pronouns = pronouns_repo.count(session)
-    total = nouns + verbs + adjectives + adverbs + prepositions + pronouns
+        determiners = determiners_repo.count(session)
+    total = nouns + verbs + adjectives + adverbs + prepositions + pronouns + determiners
     click.echo(f'nouns: {nouns}')
     click.echo(f'verbs: {verbs}')
     click.echo(f'adjectives: {adjectives}')
     click.echo(f'adverbs: {adverbs}')
     click.echo(f'prepositions: {prepositions}')
     click.echo(f'pronouns: {pronouns}')
+    click.echo(f'determiners: {determiners}')
     click.echo(f'total: {total}')
 
 

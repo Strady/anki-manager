@@ -3,5 +3,5 @@ from database.engine import engine
 
 
 if __name__ == '__main__':
-    from database.sa_models import Noun, Verb, Adjective, Adverb, Preposition, Pronoun
+    from database.sa_models import Noun, Verb, Adjective, Adverb, Preposition, Pronoun, Determiner
     Base.metadata.create_all(engine)
