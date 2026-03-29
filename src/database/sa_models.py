@@ -90,3 +90,12 @@ class Determiner(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     word: Mapped[str] = mapped_column(String, unique=True)
+
+
+class Conjunction(Base):
+    __tablename__ = 'conjunctions'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+
+    word: Mapped[str] = mapped_column(String, unique=True)
+
