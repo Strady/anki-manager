@@ -82,6 +82,7 @@ class Pronoun(Base):
     dependent_possessive: Mapped[str]
     independent_possessive: Mapped[str]
     reflexive: Mapped[str] = mapped_column(String, nullable=True)
+    additional: Mapped[str | None]
 
 
 class Determiner(Base):

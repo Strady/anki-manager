@@ -12,6 +12,7 @@ def create(session: Session, pronoun: pydantic_models.Pronoun) -> sa_models.Pron
         dependent_possessive=pronoun.dependent_possessive,
         independent_possessive=pronoun.independent_possessive,
         reflexive=pronoun.reflexive,
+        additional=pronoun.additional_json
     )
     session.add(pronoun)
     return pronoun

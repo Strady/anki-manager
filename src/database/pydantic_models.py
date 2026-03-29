@@ -150,6 +150,7 @@ class Pronoun(BaseModel):
     dependent_possessive: str
     independent_possessive: str
     reflexive: str
+    additional: set[str] = set()
 
     def __iter__(self):
         return iter((
@@ -157,7 +158,8 @@ class Pronoun(BaseModel):
             self.object,
             self.dependent_possessive,
             self.independent_possessive,
-            self.reflexive
+            self.reflexive,
+            *self.additional
         ))
 
     def __hash__(self):
@@ -168,3 +170,21 @@ class Pronoun(BaseModel):
 
     def __str__(self) -> str:
         return self.subject
+
+    @property
+    def additional_json(self) -> str:
+        return json.dumps(list(self.additional))
+
+    @field_validator('additional', mode='before')
+    @classmethod
+    def parse_additional_arg(cls, v):
+        if isinstance(v, str):
+            validation_error = '"additional" must be either a set of stings or a JSON-array with strings'
+            try:
+                additional_list = json.loads(v)
+            except json.JSONDecodeError:
+                raise ValueError(validation_error)
+            if not all(isinstance(word, str) for word in additional_list):
+                raise ValueError(validation_error)
+            return set(additional_list)
+        return v
